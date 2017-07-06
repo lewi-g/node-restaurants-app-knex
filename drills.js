@@ -4,6 +4,8 @@ const knex = require('knex')({
   connection:
   'postgres://xrxgebfs:HaSCi8Cui1yXnDDGREp7WHYra52gd8zF@babar.elephantsql.com:5432/xrxgebfs'});
 
+const Treeize = require('treeize');
+const restaurants = new Treeize();
 // knex.select('id', 'name', 'borough', 'cuisine')
 //   .from('restaurants')
 //   .where( { borough: 'Manhattan'} )
@@ -80,30 +82,30 @@ const knex = require('knex')({
 //   .then(results => console.log(JSON.stringify(results, null, 4)));
 
 // knex('restaurants')
-  // .returning(['id', 'name'])
-  // .insert([{
-  //   'name': `Scott's Place`,
-  //   'borough': 'Bronx',
-  //   'cuisine': 'coffee',
-  //   'address_building_number': '124',
-  //   'address_street': '168th',
-  //   'address_zipcode': '11232'
-  // },{
-  //   'name': 'Boo Cafe',
-  //   'borough': 'Brooklyn',
-  //   'cuisine': 'coffee',
-  //   'address_building_number': '123',
-  //   'address_street': 'Atlantic Avenue',
-  //   'address_zipcode': '11231'
-  // },{
-  //   'name': 'Cafe Cafe',
-  //   'borough': 'Brooklyn',
-  //   'cuisine': 'coffee',
-  //   'address_building_number': '123',
-  //   'address_street': 'Atlantic Avenue',
-  //   'address_zipcode': '11231'
-  // }])
-  // .then(results => console.log(JSON.stringify(results, null, 4)));
+// .returning(['id', 'name'])
+// .insert([{
+//   'name': `Scott's Place`,
+//   'borough': 'Bronx',
+//   'cuisine': 'coffee',
+//   'address_building_number': '124',
+//   'address_street': '168th',
+//   'address_zipcode': '11232'
+// },{
+//   'name': 'Boo Cafe',
+//   'borough': 'Brooklyn',
+//   'cuisine': 'coffee',
+//   'address_building_number': '123',
+//   'address_street': 'Atlantic Avenue',
+//   'address_zipcode': '11231'
+// },{
+//   'name': 'Cafe Cafe',
+//   'borough': 'Brooklyn',
+//   'cuisine': 'coffee',
+//   'address_building_number': '123',
+//   'address_street': 'Atlantic Avenue',
+//   'address_zipcode': '11231'
+// }])
+// .then(results => console.log(JSON.stringify(results, null, 4)));
 
 // knex('restaurants')
 //   .where('nyc_restaurant_id', 30191841)
@@ -120,31 +122,37 @@ const knex = require('knex')({
 //   .del()
 //   .then(results => console.log(JSON.stringify(results, null, 4)));
 
+
+// function hydration(results) {
+//   const hydrated = {};
+//   results.forEach(row => {
+//     if (!(row.id in hydrated)) {
+//       hydrated[row.id] = {
+//         name: row.name,
+//         cuisine: row.cuisine,
+//         borough: row.borough,
+//         grades: []
+//       };
+//     }
+//     hydrated[row.id].grades.push({
+//       gradeId: row.gradeId,
+//       grade: row.grade,
+//       score: row.score
+//     });
+//   });
+//   console.log(JSON.stringify(hydrated, null, 4));
+// };
+
 knex.select('restaurants.id', 'name', 'cuisine', 'borough', 'grades.id as gradeId', 'grade', 'score')
-    .from('restaurants')
-    .innerJoin('grades', 'restaurants.id', 'grades.restaurant_id')
-    .orderBy('date', 'desc')
-    .limit(10)
-    .then(results => hydration(results));
+  .from('restaurants')
+  .innerJoin('grades', 'restaurants.id', 'grades.restaurant_id')
+  .orderBy('date', 'desc')
+  .limit(10)
+  .then(results => {
+    // restaurants.setSignature();
+    restaurants.grow(results);
+    // setSignature(results,['id', 'name:row.name','grades:gradeID:row.gradeId' ])); 
+    console.log(restaurants.getData());
+  });
 
 
-function hydration(results) {
-  const hydrated = {};
-  results.forEach(row => {
-    if (!(row.id in hydrated)) {
-      hydrated[row.id] = {
-        name: row.name,
-        cuisine: row.cuisine,
-        borough: row.borough,
-        grades: []
-      }
-    }
-    hydrated[row.id].grades.push({
-      gradeId: row.gradeId,
-      grade: row.grade,
-      score: row.score
-    })
-  })
-
-  console.log(JSON.stringify(hydrated, null, 4));
-};
