@@ -6,9 +6,13 @@
 
 exports.DATABASE = {
   client: 'pg',
-  connection: DATABASE_URL,
-  // debug: true
+  // connection: DATABASE_URL,
+  debug: true,
+  connection:
+  'postgres://xrxgebfs:HaSCi8Cui1yXnDDGREp7WHYra52gd8zF@babar.elephantsql.com:5432/xrxgebfs'
 };
+
+  
 
 exports.PORT = process.env.PORT || 8080; 
 
@@ -17,10 +21,14 @@ exports.PORT = process.env.PORT || 8080;
 // Require Knex and make connection
 const knex = require('knex')({
   client: 'pg',
-  connection: {
-    database: 'dev-restaurants-app'
-  },
+   connection:
+  'postgres://xrxgebfs:HaSCi8Cui1yXnDDGREp7WHYra52gd8zF@babar.elephantsql.com:5432/xrxgebfs'
 });
+
+//   connection: {
+//     database: 'dev-restaurants-app'
+//   },
+// });
 
 // If you're using ElephantSQL then the connection will look like this
 /*

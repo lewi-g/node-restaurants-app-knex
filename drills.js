@@ -79,28 +79,45 @@ const knex = require('knex')({
 //   .returning(['id', 'name'])
 //   .then(results => console.log(JSON.stringify(results, null, 4)));
 
+// knex('restaurants')
+  // .returning(['id', 'name'])
+  // .insert([{
+  //   'name': `Scott's Place`,
+  //   'borough': 'Bronx',
+  //   'cuisine': 'coffee',
+  //   'address_building_number': '124',
+  //   'address_street': '168th',
+  //   'address_zipcode': '11232'
+  // },{
+  //   'name': 'Boo Cafe',
+  //   'borough': 'Brooklyn',
+  //   'cuisine': 'coffee',
+  //   'address_building_number': '123',
+  //   'address_street': 'Atlantic Avenue',
+  //   'address_zipcode': '11231'
+  // },{
+  //   'name': 'Cafe Cafe',
+  //   'borough': 'Brooklyn',
+  //   'cuisine': 'coffee',
+  //   'address_building_number': '123',
+  //   'address_street': 'Atlantic Avenue',
+  //   'address_zipcode': '11231'
+  // }])
+  // .then(results => console.log(JSON.stringify(results, null, 4)));
+
+// knex('restaurants')
+//   .where('nyc_restaurant_id', 30191841)
+//   .update({'name':'DJ Reynolds Pub and Restaurant'})
+//   .then(results => console.log(JSON.stringify(results, null, 4)));
+
+// knex('grades')
+//   .where('id', 10)
+//   .del()
+//   .then(results => console.log(JSON.stringify(results, null, 4)));
+
 knex('restaurants')
-  .insert({
-    'name': `Scott's Place`,
-    'borough': 'Bronx',
-    'cuisine': 'coffee',
-    'address_building_number': '124',
-    'address_street': '168th',
-    'address_zipcode': '11232'
-  },{
-    'name': 'Boo Cafe',
-    'borough': 'Brooklyn',
-    'cuisine': 'coffee',
-    'address_building_number': '123',
-    'address_street': 'Atlantic Avenue',
-    'address_zipcode': '11231'
-  },{
-    'name': 'Cafe Cafe',
-    'borough': 'Brooklyn',
-    'cuisine': 'coffee',
-    'address_building_number': '123',
-    'address_street': 'Atlantic Avenue',
-    'address_zipcode': '11231'
-  })
-  .returning(['id', 'name'])
+  .where('id', 22)
+  .del()
   .then(results => console.log(JSON.stringify(results, null, 4)));
+
+
